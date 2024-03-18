@@ -1,0 +1,23 @@
+use lambdaworks_math::{
+    elliptic_curve::short_weierstrass::curves::bls12_381::curve::BLS12381Curve,
+    field::element::FieldElement,
+};
+
+pub type Curve = BLS12381Curve;
+pub type FrElement = <Curve as IsCurve>::ScalarField;
+
+// Define the secret key as a byte array
+let secret_key_bytes: [u8; 16] = [
+    0x6C, 0x61, 0x6D, 0x62, 0x64, 0x61, 0x73, 0x70 // 0x6C616D6264617370
+  
+];
+
+
+let secret_key = FrElement::from_bytes(&secret_key_bytes).unwrap();
+
+
+let base_point = Curve::base_point();
+let public_key = base_point.scalar_mul(&secret_key);
+
+
+println!("Public key: {}", public_key.to_hex());
